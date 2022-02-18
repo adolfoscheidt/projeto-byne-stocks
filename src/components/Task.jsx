@@ -1,8 +1,8 @@
 import React from "react";
 import "./Task.css";
 
-const Task = ({ tarefa }) => {
-  return <div className="task-container">{tarefa.title}</div>;
+const Task = ({ task }) => {
+  return <div className="task-container">{task.title}</div>;
 };
 
 export default Task;

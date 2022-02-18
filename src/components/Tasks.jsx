@@ -1,11 +1,11 @@
 import React from "react";
 import Task from "./Task";
 
-const Tasks = ( {tarefas} ) => {
+const Tasks = ( {tasks} ) => {
 
     return(
         <>
-        {tarefas.map((tarefa) => <Task tarefa={tarefa}/>)}
+        {tasks.map((task) => <Task task={task}/>)}
         </>
     )
 } 
