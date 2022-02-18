@@ -11,6 +11,7 @@ const AddTask = ({ handleTaskAddition }) => {
 
   const handleAddTaskClick = () => {
     handleTaskAddition(inputData); //usa a função do App.jsx p/ criar um novo array de tarefas com o input recebido, quando o botão é apertado.
+    setInputData(''); //limpa a caixa de texto
   };
 
   return (
