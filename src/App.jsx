@@ -14,7 +14,7 @@ const App = () => {
     },
     {
       id: '2',
-      title: 'Shãrbar a shônsha',
+      title: 'Fazer a janta',
       completed: true,
     }
   ]);
