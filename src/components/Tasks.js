@@ -1,8 +1,13 @@
 import React from "react";
+import Task from "./Task";
 
 const Tasks = ( {tarefas} ) => {
-    console.log(tarefas[0]);
-    return <h1>Tasks</h1>;
-}
+
+    return(
+        <>
+        {tarefas.map((tarefa) => <Task tarefa={tarefa}/>)}
+        </>
+    )
+} 
 
 export default Tasks;
