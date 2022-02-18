@@ -1,16 +1,29 @@
 import React, { useState } from "react";
+import Tasks from "./components/Tasks";
 import "./App.css";
 
+
 const App = () => {
-  // const message = "Hello world!";
-  const [message, setMessage] = useState("mensagem inicial");
+ 
+  const [tasks, setTasks] = useState([
+    {
+      id: '1',
+      title: 'Tocar gaita',
+      completed: false,
+    },
+    {
+      id: '2',
+      title: 'Shãrbar a shônsha',
+      completed: true,
+    }
+  ]);
 
   return (
     <>
-      <div className="container">{message}</div>
-      <button onClick={() => setMessage("apertastes o botão, meus parabéns")}>
-        mudar mensagem
-      </button>
+      <div className="container">
+        <Tasks tarefas={tasks}/>
+      </div>
+       
     </>
   );
 };
