@@ -32,6 +32,16 @@ const App = () => {
     setTasks(newTasks);
   }
 
+  const handleRemoveClick = (taskID) => {
+    for( var i = 0; i < tasks.length; i++){ 
+    
+      if ( tasks[i].id === taskID) { 
+          const newTasks = tasks.splice(i, 1); 
+          setTasks(newTasks);
+      }
+  }
+}
+
   const handleTaskAddition = (taskTitle) => {
     const newTasks = [...tasks, {
       title: taskTitle,
@@ -47,7 +57,7 @@ const App = () => {
       <div className="container">
         <Header />
         <AddTask handleTaskAddition={handleTaskAddition}/>
-        <Tasks tasks={tasks} handleTaskClick={handleTaskClick}/>
+        <Tasks tasks={tasks} handleTaskClick={handleTaskClick} handleRemoveClick={handleRemoveClick}/>
       </div>
        
     </>
