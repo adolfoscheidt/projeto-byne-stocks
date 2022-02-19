@@ -5,6 +5,7 @@ import Tasks from "./components/Tasks";
 import "./App.css";
 import AddTask from "./components/AddTask";
 import Header from "./components/Header";
+import Subtitle from "./components/Subtitle";
 
 
 const App = () => {
@@ -12,12 +13,12 @@ const App = () => {
   const [tasks, setTasks] = useState([
     {
       id: '1',
-      title: 'Tocar gaita',
+      title: 'Tocar Acordeon',
       completed: false,
     },
     {
       id: '2',
-      title: 'Fazer a janta',
+      title: 'Preparar o almoço',
       completed: true,
     }
   ]);
@@ -57,6 +58,7 @@ const App = () => {
       <div className="container">
         <Header />
         <AddTask handleTaskAddition={handleTaskAddition}/>
+        <Subtitle />
         <Tasks tasks={tasks} handleTaskClick={handleTaskClick} handleRemoveClick={handleRemoveClick}/>
       </div>
        

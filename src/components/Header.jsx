@@ -1,9 +1,8 @@
 import React from "react";
-import './Header.css'
 
 const Header = () => {
   return (
-    <div className="header-container">Gerenciador de Tarefas</div>
+     <h1 style={{color:"#eee"}}>Minhas Tarefas</h1>
   );
 };
 

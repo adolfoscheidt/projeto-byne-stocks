@@ -10,8 +10,11 @@ const AddTask = ({ handleTaskAddition }) => {
   };
 
   const handleAddTaskClick = () => {
+    if (inputData === ""){alert ("Não é possível adicionar tarefas com texto vazio!");}
+    else{
     handleTaskAddition(inputData); //usa a função do App.jsx p/ criar um novo array de tarefas com o input recebido, quando o botão é apertado.
     setInputData(''); //limpa a caixa de texto
+    }
   };
 
   return (
