@@ -1,10 +1,10 @@
-.add-task-container{
+.add-stock-container{
     margin: 15px 0;
     width: 100%;
     display: flex;
 }
 
-.add-task-input{
+.add-stock-input{
     height: 40px;
     padding: 0 10px;
     border-radius: 5px;
@@ -15,7 +15,7 @@
     font-size: 16 px;
 }
 
-.add-task-button-container{
+.add-stock-button-container{
     margin-left: 10px;
     flex: 1;
 }

@@ -1,35 +1,35 @@
 import React, { useState } from "react";
-import "./AddTask.css";
+import "./AddStock.css";
 import Button from "./Button";
 
-const AddTask = ({ handleTaskAddition }) => {
+const AddStock = ({ handleStockAddition }) => {
   const [inputData, setInputData] = useState("");
 
   const handleInputChange = (e) => {
     setInputData(e.target.value); //atualiza a variável de estágio com o que a pessoa digitou na caixa
   };
 
-  const handleAddTaskClick = () => {
+  const handleAddStockClick = () => {
     if (inputData === ""){alert ("Não é possível adicionar tarefas com texto vazio!");}
     else{
-    handleTaskAddition(inputData); //usa a função do App.jsx p/ criar um novo array de tarefas com o input recebido, quando o botão é apertado.
+    handleStockAddition(inputData); //usa a função do App.jsx p/ criar um novo array de tarefas com o input recebido, quando o botão é apertado.
     setInputData(''); //limpa a caixa de texto
     }
   };
 
   return (
-    <div className="add-task-container">
+    <div className="add-stock-container">
       <input
         onChange={handleInputChange}
         value={inputData}
-        className="add-task-input"
+        className="add-stock-input"
         type="text"
       />
-      <div className="add-task-button-container">
-        <Button onClick={handleAddTaskClick}>Adicionar</Button>
+      <div className="add-stock-button-container">
+        <Button onClick={handleAddStockClick}>Adicionar</Button>
       </div>
     </div>
   );
 };
 
-export default AddTask;
+export default AddStock;

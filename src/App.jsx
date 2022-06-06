@@ -1,67 +1,65 @@
 import React, { useState } from "react";
-import { v4 as uuidv4} from "uuid";
+import useWebSocket from "react-use-websocket";
 
-import Tasks from "./components/Tasks";
+import Stocks from "./components/Stocks";
 import "./App.css";
-import AddTask from "./components/AddTask";
+import AddStock from "./components/AddStock";
 import Header from "./components/Header";
 import Subtitle from "./components/Subtitle";
 
-
 const App = () => {
- 
-  const [tasks, setTasks] = useState([
+
+  // const socketUrl = "ws://localhost:8080";
+
+  // const { sendJsonMessage, lastMessage } = useWebSocket(socketUrl, {
+  //   onMessage: (event) => {
+  //     let incomeData = JSON.parse(event.data);
+  //     if (incomeData.event === "connected") {
+  //       setStocks(incomeData.stocksData);
+  //       sendJsonMessage({
+  //         event: "subscribe",
+  //         stocks: ["IET", "ZHT"],
+  //       });
+  //     } else if (incomeData.event === "stocks-update") {
+  //       console.log(incomeData);
+  //     }
+  //     else {
+  //       console.log("nada")
+  //     }
+  //   }
+  // });
+
+  // sendJsonMessage({
+  //       "event": "subscribe",
+  //       "stocks": ["IET", "ZHT"]
+  //     })
+
+  //  shouldReconnect: (closeEvent) => true,
+
+  // console.log(JSON.parse(lastMessage.data).stocksData);
+
+  const [stocks, setStocks] = useState([
     {
-      id: '1',
-      title: 'Tocar Acordeon',
-      completed: false,
+      symbol: "IET",
+      companyName: "Morissette Group",
+      catchPhrase: "Proactive high-level framework",
+      basePrice: 564,
     },
-    {
-      id: '2',
-      title: 'Preparar o almoço',
-      completed: true,
-    }
   ]);
 
-  const handleTaskClick = (taskID) => {
-    const newTasks = tasks.map((task) => {
-      if (task.id === taskID) return {...task, completed: !task.completed};
-
-      return task;
-    })
-
-    setTasks(newTasks);
-  }
-
-  const handleRemoveClick = (taskID) => {
-    for( var i = 0; i < tasks.length; i++){ 
-    
-      if ( tasks[i].id === taskID) { 
-          const newTasks = tasks.splice(i, 1); 
-          setTasks(newTasks);
-      }
-  }
-}
-
-  const handleTaskAddition = (taskTitle) => {
-    const newTasks = [...tasks, {
-      title: taskTitle,
-      id: uuidv4(),
-      completed:false,
-    }]
-
-    setTasks(newTasks);
-  }
+  // socket.onmessage = function (event){
+  //   let newStocks = JSON.parse(event.data).stocksData;
+  //   setStocks(newStocks);
+  // }
 
   return (
     <>
       <div className="container">
         <Header />
-        <AddTask handleTaskAddition={handleTaskAddition}/>
+        <AddStock />
         <Subtitle />
-        <Tasks tasks={tasks} handleTaskClick={handleTaskClick} handleRemoveClick={handleRemoveClick}/>
+        <Stocks stocks={stocks} />
       </div>
-       
     </>
   );
 };
