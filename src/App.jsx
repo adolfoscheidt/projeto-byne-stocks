@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useWebSocket from "react-use-websocket";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
@@ -12,41 +12,25 @@ import StockDetails from "./components/StockDetails";
 const App = () => {
   const socketUrl = "ws://localhost:8080";
 
-  // const socket = useWebSocket(socketUrl, {
-  //   onMessage: (event) => {
-  //     let incomeData = JSON.parse(event.data);
-  //     if (incomeData.event === "connected") {
-  //       setStocks(incomeData.stocksData);
-  //       // sendJsonMessage({
-  //       //   event: "subscribe",
-  //       //   stocks: ["IET", "ZHT"],
-  //       // });
-  //     } else if (incomeData.event === "stocks-update") {
-  //       console.log(incomeData);
-  //     }
-  //     else {
-  //       console.log("nada")
-  //     }
-  //   }
-  // });
-
-  const { lastMessage, sendJsonMessage } = useWebSocket(socketUrl);
-  console.log(lastMessage);
-
-  const [stocks, setStocks] = useState([
-    {
-      symbol: "IET",
-      companyName: "Morissette Group",
-      catchPhrase: "Proactive high-level framework",
-      basePrice: 564,
+  const { sendJsonMessage } = useWebSocket(socketUrl, {
+    onMessage: (event) => {
+      let incomeData = JSON.parse(event.data);
+      if (incomeData.event === "connected") {
+        setStocks(incomeData.stocksData);
+      } else if (incomeData.event === "stocks-update") {
+        //  console.log(incomeData.stocks["IET"]);
+        handlePriceUpdate(incomeData)
+      } else {
+        console.log("nada");
+      }
     },
-    {
-      symbol: "N",
-      companyName: "Nisseun motors",
-      catchPhrase: "Focused solutions",
-      basePrice: 55,
-    },
-  ]);
+  });
+ 
+
+  const [priceKeyArray, setPriceKeyArray] = useState([]);
+  const [priceTimestamps, setPriceTimestamps] = useState([]);
+
+  const [stocks, setStocks] = useState([]);
 
   const handleStockSubscribe = (stockSymbol) => {
     sendJsonMessage({
@@ -62,11 +46,28 @@ const App = () => {
     });
   };
 
-  // socket.onmessage = function (event){
-  //   let newStocks = JSON.parse(event.data).stocksData;
-  //   setStocks(newStocks);
-  // }
+  const handleStockData = (stockSymbol) => {
+    for (let index = 0; index < stocks.length; index++) {
+      const element = stocks[index];
+      if (element.symbol === stockSymbol){
+        return [element.companyName, element.catchPhrase, element.basePrice];
+      }
+    }
+  }
 
+  const handlePriceUpdate = (messageData) => {
+    const newPriceKeyArray = [...priceKeyArray, messageData.stocks];
+    const newPriceTimeStamps = [...priceTimestamps, new Date().getTime()];
+    setPriceKeyArray(newPriceKeyArray);
+    setPriceTimestamps(newPriceTimeStamps);
+  }
+
+
+  useEffect(() => {
+    console.log(priceKeyArray, priceTimestamps)
+  }, [priceKeyArray, priceTimestamps])
+
+ 
   return (
     <Router>
       <div className="container">
@@ -89,7 +90,13 @@ const App = () => {
           exact
           render={() => (
             <>
-              <StockDetails handleStockUnsubscribe={handleStockUnsubscribe}/>
+              <StockDetails 
+              handleStockUnsubscribe={handleStockUnsubscribe} 
+              handleStockData={handleStockData} 
+              priceKeyArray={priceKeyArray} 
+              setPriceKeyArray={setPriceKeyArray}
+              priceTimestamps={priceTimestamps}
+              setPriceTimestamps={setPriceTimestamps}/>
             </>
           )}
         />
@@ -99,3 +106,18 @@ const App = () => {
 };
 
 export default App;
+
+// [
+//   {
+//     symbol: "IET",
+//     companyName: "Morissette Group",
+//     catchPhrase: "Proactive high-level framework",
+//     basePrice: 564,
+//   },
+//   {
+//     symbol: "N",
+//     companyName: "Nisseun motors",
+//     catchPhrase: "Focused solutions",
+//     basePrice: 55,
+//   },
+// ]
