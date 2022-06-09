@@ -1,7 +1,8 @@
 import React from 'react';
 
 const Subtitle = () => {
-    return ( <p style={{color:"#eee"}}><i>Clique na empresa que deseja para visualizar as atualizações de preços.</i></p>  );
+    return ( 
+    <p style={{color:"#eee", textAlign:"center", fontSize:"120%"}}><i>Clique na empresa que deseja para visualizar as atualizações de preços em tempo real.</i></p>  );
 }
  
 export default Subtitle;

@@ -1,11 +1,11 @@
 import React from "react";
 import Stock from "./Stock";
 
-const Stocks = ( {stocks, handleStockSubscribe} ) => {
+const Stocks = ( {stocks, handleStockSubscribe, startTimeAndPrice} ) => {
 
     return(
         <>
-        {stocks.map((stock) => <Stock stock={stock} handleStockSubscribe={handleStockSubscribe}/>)}
+        { React.Children.toArray(stocks.map((stock) => <Stock stock={stock} handleStockSubscribe={handleStockSubscribe}/>))}
         </>
     )
 } 

@@ -4,10 +4,11 @@
     padding: 15px 20px;
     display: flex;
     border-radius: 5px;
-    justify-content: space-between;
-    color: #eee;
+    justify-content:center;
+    color: rgb(238, 238, 13);
     align-items: center;
     cursor: pointer;
+    font-weight: bold;
 }
 
 .remove-stock-button{

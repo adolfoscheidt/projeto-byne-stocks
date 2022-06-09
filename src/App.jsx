@@ -4,7 +4,6 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 
 import Stocks from "./components/Stocks";
 import "./App.css";
-import AddStock from "./components/AddStock";
 import Header from "./components/Header";
 import Subtitle from "./components/Subtitle";
 import StockDetails from "./components/StockDetails";
@@ -18,25 +17,23 @@ const App = () => {
       if (incomeData.event === "connected") {
         setStocks(incomeData.stocksData);
       } else if (incomeData.event === "stocks-update") {
-        //  console.log(incomeData.stocks["IET"]);
-        handlePriceUpdate(incomeData)
-      } else {
-        console.log("nada");
+         handlePriceUpdate(incomeData)
+      } else if (incomeData.event === "disconnecting"){
+        alert(incomeData.reason);
       }
-    },
+    }, retryOnError: true,
   });
  
+  const [priceArray, setPriceArray] = useState([]);
 
-  const [priceKeyArray, setPriceKeyArray] = useState([]);
-  const [priceTimestamps, setPriceTimestamps] = useState([]);
-
-  const [stocks, setStocks] = useState([]);
+  const [stocks, setStocks] = useState([{symbol: "Aguardando conexão com o servidor!"}]);
 
   const handleStockSubscribe = (stockSymbol) => {
     sendJsonMessage({
       event: "subscribe",
       stocks: [stockSymbol],
     });
+    // setPriceArray(handleStockData(stockSymbol)[2]);
   };
 
   const handleStockUnsubscribe = (stockSymbol) => {
@@ -44,7 +41,7 @@ const App = () => {
       event: "unsubscribe",
       stocks: [stockSymbol],
     });
-  };
+   };
 
   const handleStockData = (stockSymbol) => {
     for (let index = 0; index < stocks.length; index++) {
@@ -56,20 +53,21 @@ const App = () => {
   }
 
   const handlePriceUpdate = (messageData) => {
-    if (priceKeyArray.length < 50){
-    const newPriceKeyArray = [...priceKeyArray, messageData.stocks];
-     setPriceKeyArray(newPriceKeyArray);
+    const arrayMaxLength = 50;
+    if (priceArray.length < arrayMaxLength){
+    const newPriceArray = [...priceArray, messageData.stocks];
+     setPriceArray(newPriceArray);
     }
     else {
-      const newPriceKeyArray = [...priceKeyArray.slice(-50), messageData.stocks]
-      setPriceKeyArray(newPriceKeyArray);
+      const newPriceArray = [...priceArray.slice(-arrayMaxLength), messageData.stocks]
+      setPriceArray(newPriceArray);
     }
    }
 
 
   // useEffect(() => {
-  //   console.log(priceKeyArray)
-  // }, [priceKeyArray])
+  //   console.log( )
+  // }, [ ]);
 
  
   return (
@@ -85,7 +83,7 @@ const App = () => {
               <Stocks
                 stocks={stocks}
                 handleStockSubscribe={handleStockSubscribe}
-              />
+               />
             </>
           )}
         />
@@ -97,8 +95,8 @@ const App = () => {
               <StockDetails 
               handleStockUnsubscribe={handleStockUnsubscribe} 
               handleStockData={handleStockData} 
-              priceKeyArray={priceKeyArray} 
-              setPriceKeyArray={setPriceKeyArray}/>
+              priceArray={priceArray} 
+              setPriceArray={setPriceArray}/>
             </>
           )}
         />
