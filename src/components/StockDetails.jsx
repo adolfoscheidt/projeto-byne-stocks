@@ -15,6 +15,10 @@ const StockDetails = ({
   const params = useParams();
   const history = useHistory();
 
+  const companyName = handleStockData(params.stockSymbol)[0];
+  const catchPhrase = handleStockData(params.stockSymbol)[1];
+  const basePrice = handleStockData(params.stockSymbol)[2];
+
   const handleBackButtonClick = () => {
     handleStockUnsubscribe(params.stockSymbol);
     setTimeout(function () {
@@ -31,31 +35,36 @@ const StockDetails = ({
         tickFormatter={(value) => value.toFixed(2)}
         domain={["dataMin", "dataMax"]}
       />
-      <ReferenceLine
-        y={handleStockData(params.stockSymbol)[2]}
-        label="basePrice"
-        stroke="red"
-      />
+      <ReferenceLine y={basePrice} label="basePrice" stroke="red" />
     </LineChart>
   );
 
   return (
     <>
       <div className="back-button-container">
-         <div className="stock-details-container">
+        <div className="stock-details-container">
           <h2>{params.stockSymbol}</h2>
           <p>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Soluta
-            aliquam temporibus nihil!
+            Company Name: <b>{companyName}</b>
+          </p>
+          <p>
+            <i>"{catchPhrase}"</i>
+          </p>
+          <p>
+            Base price:{" "}
+            <span style={{ color: "rgb(238, 238, 13)", fontWeight: "bold" }}>
+              {basePrice} Mi $
+            </span>{" "}
           </p>
           {renderLineChart}
-          <p></p>
         </div>
         <Button onClick={handleBackButtonClick}>Voltar</Button>
       </div>
     </>
   );
 };
+
+export default StockDetails;
 
 /* ----- PARA TESTES FUTUROS ------ */
 
@@ -69,5 +78,3 @@ const StockDetails = ({
 //     setLastPrice(TimeAndPrice);
 //     }
 //  })
-
-export default StockDetails;

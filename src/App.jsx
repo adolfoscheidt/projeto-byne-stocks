@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import useWebSocket from "react-use-websocket";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
@@ -17,16 +17,19 @@ const App = () => {
       if (incomeData.event === "connected") {
         setStocks(incomeData.stocksData);
       } else if (incomeData.event === "stocks-update") {
-         handlePriceUpdate(incomeData)
-      } else if (incomeData.event === "disconnecting"){
+        handlePriceUpdate(incomeData);
+      } else if (incomeData.event === "disconnecting") {
         alert(incomeData.reason);
       }
-    }, retryOnError: true,
+    },
+    retryOnError: true,
   });
- 
+
   const [priceArray, setPriceArray] = useState([]);
 
-  const [stocks, setStocks] = useState([{symbol: "Aguardando conexão com o servidor!"}]);
+  const [stocks, setStocks] = useState([
+    { symbol: "Aguardando conexão com o servidor!" },
+  ]);
 
   const handleStockSubscribe = (stockSymbol) => {
     sendJsonMessage({
@@ -41,35 +44,31 @@ const App = () => {
       event: "unsubscribe",
       stocks: [stockSymbol],
     });
-   };
+  };
 
   const handleStockData = (stockSymbol) => {
     for (let index = 0; index < stocks.length; index++) {
       const element = stocks[index];
-      if (element.symbol === stockSymbol){
+      if (element.symbol === stockSymbol) {
         return [element.companyName, element.catchPhrase, element.basePrice];
       }
     }
-  }
+  };
 
   const handlePriceUpdate = (messageData) => {
     const arrayMaxLength = 50;
-    if (priceArray.length < arrayMaxLength){
-    const newPriceArray = [...priceArray, messageData.stocks];
-     setPriceArray(newPriceArray);
-    }
-    else {
-      const newPriceArray = [...priceArray.slice(-arrayMaxLength), messageData.stocks]
+    if (priceArray.length < arrayMaxLength) {
+      const newPriceArray = [...priceArray, messageData.stocks];
+      setPriceArray(newPriceArray);
+    } else {
+      const newPriceArray = [
+        ...priceArray.slice(-arrayMaxLength),
+        messageData.stocks,
+      ];
       setPriceArray(newPriceArray);
     }
-   }
+  };
 
-
-  // useEffect(() => {
-  //   console.log( )
-  // }, [ ]);
-
- 
   return (
     <Router>
       <div className="container">
@@ -83,7 +82,7 @@ const App = () => {
               <Stocks
                 stocks={stocks}
                 handleStockSubscribe={handleStockSubscribe}
-               />
+              />
             </>
           )}
         />
@@ -92,11 +91,12 @@ const App = () => {
           exact
           render={() => (
             <>
-              <StockDetails 
-              handleStockUnsubscribe={handleStockUnsubscribe} 
-              handleStockData={handleStockData} 
-              priceArray={priceArray} 
-              setPriceArray={setPriceArray}/>
+              <StockDetails
+                handleStockUnsubscribe={handleStockUnsubscribe}
+                handleStockData={handleStockData}
+                priceArray={priceArray}
+                setPriceArray={setPriceArray}
+              />
             </>
           )}
         />
@@ -106,18 +106,3 @@ const App = () => {
 };
 
 export default App;
-
-// [
-//   {
-//     symbol: "IET",
-//     companyName: "Morissette Group",
-//     catchPhrase: "Proactive high-level framework",
-//     basePrice: 564,
-//   },
-//   {
-//     symbol: "N",
-//     companyName: "Nisseun motors",
-//     catchPhrase: "Focused solutions",
-//     basePrice: 55,
-//   },
-// ]

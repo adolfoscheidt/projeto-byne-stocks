@@ -9,7 +9,7 @@ const Stock = ({ stock, handleStockSubscribe, startTimeAndPrice }) => {
   const handleStockDetailsClick = () => {
     history.push(`/${stock.symbol}`);
     handleStockSubscribe(stock.symbol);
-   };
+  };
 
   return (
     <div className="stock-container" onClick={handleStockDetailsClick}>
