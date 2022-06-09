@@ -56,16 +56,20 @@ const App = () => {
   }
 
   const handlePriceUpdate = (messageData) => {
+    if (priceKeyArray.length < 50){
     const newPriceKeyArray = [...priceKeyArray, messageData.stocks];
-    const newPriceTimeStamps = [...priceTimestamps, new Date().getTime()];
-    setPriceKeyArray(newPriceKeyArray);
-    setPriceTimestamps(newPriceTimeStamps);
-  }
+     setPriceKeyArray(newPriceKeyArray);
+    }
+    else {
+      const newPriceKeyArray = [...priceKeyArray.slice(-50), messageData.stocks]
+      setPriceKeyArray(newPriceKeyArray);
+    }
+   }
 
 
-  useEffect(() => {
-    console.log(priceKeyArray, priceTimestamps)
-  }, [priceKeyArray, priceTimestamps])
+  // useEffect(() => {
+  //   console.log(priceKeyArray)
+  // }, [priceKeyArray])
 
  
   return (
@@ -94,9 +98,7 @@ const App = () => {
               handleStockUnsubscribe={handleStockUnsubscribe} 
               handleStockData={handleStockData} 
               priceKeyArray={priceKeyArray} 
-              setPriceKeyArray={setPriceKeyArray}
-              priceTimestamps={priceTimestamps}
-              setPriceTimestamps={setPriceTimestamps}/>
+              setPriceKeyArray={setPriceKeyArray}/>
             </>
           )}
         />
