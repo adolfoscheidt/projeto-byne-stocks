@@ -1,5 +1,7 @@
 import React from "react";
 
+// componente responsável pela criação do subtítulo.
+
 const Subtitle = () => {
   return (
     <p

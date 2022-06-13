@@ -9,8 +9,10 @@ import Subtitle from "./components/Subtitle";
 import StockDetails from "./components/StockDetails";
 
 const App = () => {
+
   const socketUrl = "ws://localhost:8080";
 
+  // abrindo a conexão com o servidor 
   const { sendJsonMessage } = useWebSocket(socketUrl, {
     onMessage: (event) => {
       let incomeData = JSON.parse(event.data);
@@ -22,15 +24,19 @@ const App = () => {
         alert(incomeData.reason);
       }
     },
+    // opção para que o client continue tentando a conexão caso não seja bem sucedida de primeira.
     retryOnError: true,
   });
-
+  
+  // hook de estado que cria um array onde os preços enviados pelo servidor são armazenados.
   const [priceArray, setPriceArray] = useState([]);
 
+  // hook de estado que armazena as empresas e suas informações.
   const [stocks, setStocks] = useState([
     { symbol: "Aguardando conexão com o servidor!" },
   ]);
 
+  // função que realiza a inscrição de uma empresa
   const handleStockSubscribe = (stockSymbol) => {
     sendJsonMessage({
       event: "subscribe",
@@ -38,6 +44,7 @@ const App = () => {
     });
    };
 
+  //função que desinscreve uma empresa
   const handleStockUnsubscribe = (stockSymbol) => {
     sendJsonMessage({
       event: "unsubscribe",
@@ -45,6 +52,8 @@ const App = () => {
     });
   };
 
+  // função que cria um array com os dados de uma empresa. É chamada toda vez que clicamos em um stock.
+  // a função mapeia todos os stocks disponíveis e identifica qual possui o mesmo stockSymbol do stock que foi clicado. Após isso retorna os dados.
   const handleStockData = (stockSymbol) => {
     for (let index = 0; index < stocks.length; index++) {
       const element = stocks[index];
@@ -54,7 +63,9 @@ const App = () => {
     }
   };
 
+  // função responsável por atualizar o array de preços (priceArray). É chamada quando atualizações de preços chegam por mensagens do servidor
   const handlePriceUpdate = (messageData) => {
+    // número máximo de preços que o array armazena, para que o gráfico não fique com muitos dados. 
     const arrayMaxLength = 50;
     if (priceArray.length < arrayMaxLength) {
       const newPriceArray = [...priceArray, messageData.stocks];
@@ -68,6 +79,7 @@ const App = () => {
     }
   };
 
+  // cada <Route> é uma página diferente que é renderizada de acordo com a url, especificada pelo parâmetro "path". (Biblioteca react-router-dom)
   return (
     <Router>
       <div className="container">
