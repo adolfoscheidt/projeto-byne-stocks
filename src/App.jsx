@@ -36,8 +36,7 @@ const App = () => {
       event: "subscribe",
       stocks: [stockSymbol],
     });
-    // setPriceArray(handleStockData(stockSymbol)[2]);
-  };
+   };
 
   const handleStockUnsubscribe = (stockSymbol) => {
     sendJsonMessage({

@@ -2,7 +2,7 @@ import React from "react";
 
 import Stock from "./Stock";
 
-const Stocks = ({ stocks, handleStockSubscribe, startTimeAndPrice }) => {
+const Stocks = ({ stocks, handleStockSubscribe }) => {
   return (
     <>
       {React.Children.toArray(
