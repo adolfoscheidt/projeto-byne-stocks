@@ -5,5 +5,11 @@ O back-end é um servidor JS hospedado no repositório https://bitbucket.org/byn
 
 ## Client Setup
 
-Para executar o client, clone este repositório git em uma pasta em seu computador e instale as dependências necessárias através do comando ```npm install``` 
+Para executar o client, clone este repositório git em uma pasta de seu computador e dentro dela instale as dependências necessárias através do comando 
+
+```npm install``` 
+
+finalizada a instalaçao, execute o comando 
+
+```npm start```
  
